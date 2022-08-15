@@ -1,0 +1,23 @@
+.clockNumber {
+  text-align: center;
+  background-color: #121214;
+  box-shadow: 2px 2px 4px #2B2B2B inset;
+  height: auto;
+  width: 3rem;
+  padding: 8px 4px;
+  border-radius: 10px;
+
+  @media screen and (min-width:1280px) {
+    height: auto;
+    width: 9rem;
+    font-size: 14rem;
+  }
+}
+
+.clockSection {
+  height: 4.2rem;
+
+  @media screen and (min-width:1280px) {
+    height: 12.6rem;
+  }
+}
