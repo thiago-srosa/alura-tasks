@@ -26,7 +26,16 @@
   box-shadow: 2px 4px 4px #0000009f inset;
 }
 
-.CompletedItem {
+.activeTimer{
+  background-color: #FFCCCB;
+  color:black;
+
+  span{
+    color:black
+  }
+}
+
+.completedItem {
   background-color: #566f42;
   cursor: auto;
 

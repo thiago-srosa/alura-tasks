@@ -1,42 +1,35 @@
-import { ITask } from "src/types/task";
+import { useAppSelector, useAppDispatch } from "src/redux/hooks";
+import { RootState } from "src/redux/store";
+import { setSelectedTask } from "src/redux/AppSlice";
 import style from "./Item.module.scss";
 
-interface Props extends ITask {
-  selectTask: (selectedTask: ITask) => void;
-}
+export const Item = () => {
+  const { tasks, selectedTask, activeTimerTaskById } = useAppSelector(
+    (state: RootState) => state.app,
+  );
+  const dispatch = useAppDispatch();
 
-export const Item = ({
-  task,
-  time,
-  selected,
-  completed,
-  id,
-  selectTask,
-}: Props) => {
   return (
-    <li
-      className={`${style.item} ${selected ? style.itemSelected : ""} 
-                  ${completed ? style.itemCompleted : ""}`}
-    >
-      <button
-        type="button"
-        onClick={() =>
-          !completed &&
-          selectTask({
-            task,
-            time,
-            selected,
-            completed,
-            id,
-          })
-        }
-      >
-        <h3>{task}</h3>
-        <span>{time}</span>
-        {completed && (
-          <span className={style.completed} aria-label="completed task" />
-        )}
-      </button>
-    </li>
+    <>
+      {tasks.map((task) => (
+        <li
+          className={`
+            ${style.item} 
+            ${selectedTask.id === task.id ? style.selectedItem : ""} 
+            ${task.completed ? style.completedItem : ""}
+            ${activeTimerTaskById === task.id ? style.activeTimer : ""}
+            `}
+          key={task.id}
+        >
+          <button type="button" onClick={() => dispatch(setSelectedTask(task))}>
+            <h3>{task.taskName}</h3>
+            <span>{task.time}</span>
+            {task.completed && (
+              <span className={style.completed} aria-label="completed task" />
+            )}
+          </button>
+        </li>
+      ))}
+    </>
   );
 };

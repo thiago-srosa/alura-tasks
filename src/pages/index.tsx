@@ -1,43 +1,10 @@
-import { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { CustomForm } from "src/components/CustomForm";
 import { List } from "src/components/List";
-import { ITask } from "src/types/task";
 import { Timer } from "src/components/Timer";
 
 const Home: NextPage = () => {
-  const [tasks, setTasks] = useState<ITask[]>([]);
-  const [selected, setSelected] = useState<ITask>();
-
-  function selectTask(selectedTask: ITask) {
-    setSelected(selectedTask);
-    setTasks((previousTasks) =>
-      previousTasks.map((task) => ({
-        ...task,
-        selected: task.id === selectedTask.id,
-      })),
-    );
-  }
-
-  function finishTask() {
-    if (selected) {
-      setSelected(undefined);
-      setTasks((previousTasks) =>
-        previousTasks.map((task) => {
-          if (task.id === selected.id) {
-            return {
-              ...task,
-              selected: false,
-              completed: true,
-            };
-          }
-          return task;
-        }),
-      );
-    }
-  }
-
   return (
     <div>
       <Head>
@@ -47,11 +14,11 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="">
-        <CustomForm setTasks={setTasks} />
+        <CustomForm />
         {/* eslint-disable-next-line react/jsx-no-bind */}
-        <List tasks={tasks} selectTask={selectTask} />
+        <List />
         {/* eslint-disable-next-line react/jsx-no-bind */}
-        <Timer selected={selected} finishTask={finishTask} />
+        <Timer />
       </main>
     </div>
   );

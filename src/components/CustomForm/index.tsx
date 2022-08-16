@@ -1,43 +1,40 @@
 import { useState } from "react";
 import { Button } from "src/components/Button";
 import style from "src/components/CustomForm/CustomForm.module.scss";
-import { ITask } from "src/types/task";
-import { v4 as uuidv4 } from "uuid";
+import { addTask } from "src/redux/AppSlice";
+import { useAppSelector, useAppDispatch } from "src/redux/hooks";
+import { RootState } from "src/redux/store";
 
-interface Props {
-  setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
-}
+export const CustomForm = () => {
+  const [taskName, setTaskName] = useState("Test");
+  const [time, setTime] = useState("00:00:30");
 
-export const CustomForm = ({ setTasks }: Props) => {
-  const [task, setTask] = useState("Test");
-  const [time, setTime] = useState("00:01");
+  const { tasks } = useAppSelector((state: RootState) => state.app);
 
-  function addTask(event: React.FormEvent<HTMLFormElement>) {
+  const dispatch = useAppDispatch();
+
+  function handleOnSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setTasks((previousTasks) => [
-      ...previousTasks,
-      {
-        task,
+    dispatch(
+      addTask({
+        taskName,
         time,
-        selected: false,
         completed: false,
-        id: uuidv4(),
-      },
-    ]);
-    setTask("Test");
-    setTime("01:00");
+        id: tasks.length + 1,
+      }),
+    );
   }
 
   return (
-    <form className={style.newTask} onSubmit={addTask}>
+    <form className={style.newTask} onSubmit={handleOnSubmit}>
       <div className={style.inputContainer}>
         <label htmlFor="task">Add new task:</label>
         <input
           type="text"
           name="task"
           id="task"
-          value={task}
-          onChange={(event) => setTask(event.target.value)}
+          value={taskName}
+          onChange={(event) => setTaskName(event.target.value)}
           placeholder="What is your new task?"
           required
         />
