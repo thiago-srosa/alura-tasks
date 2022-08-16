@@ -1,7 +1,6 @@
 export interface ITask {
-  task: string;
+  taskName: string;
   time: string;
-  selected: boolean;
   completed: boolean;
-  id: string;
+  id: number;
 }
